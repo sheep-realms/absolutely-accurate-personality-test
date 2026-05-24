@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>绝对准确的人格测试</title>
+    <meta name="description" content="一测一个不吱声。" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="绝对准确的人格测试" />
+    <meta property="og:description" content="一测一个不吱声。" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="绝对准确的人格测试" />
+    <meta name="twitter:description" content="一测一个不吱声。" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family:
+                "Noto Sans SC",
+                "Microsoft YaHei",
+                sans-serif;
+            background:
+                radial-gradient(circle at top, #2a2a4d 0%, #151520 45%, #0b0b12 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .app {
+            width: 100%;
+            max-width: 520px;
+            padding: 24px;
+        }
+
+        .screen {
+            display: none;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 40px 32px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.35),
+                inset 0 1px 0 rgba(255, 255, 255, 0.08);
+            animation: fadeIn 0.3s ease;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .title {
+            margin: 0;
+            font-size: 42px;
+            line-height: 1.1;
+            font-weight: 900;
+            text-align: center;
+            letter-spacing: 0.04em;
+        }
+
+        .subtitle {
+            margin-top: 16px;
+            font-size: 18px;
+            line-height: 1.6;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.72);
+        }
+
+        .question {
+            margin: 0 0 36px;
+            font-size: 30px;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.4;
+        }
+
+        .intro {
+            margin: 0;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 16px;
+        }
+
+        .result-title {
+            margin: 18px 0 0;
+            text-align: center;
+            font-size: 72px;
+            font-weight: 900;
+            letter-spacing: 0.18em;
+        }
+
+        .result-subtitle {
+            margin-top: 16px;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.7;
+            color: rgba(255, 255, 255, 0.82);
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            margin-top: 40px;
+        }
+
+        button {
+            width: 100%;
+            border: none;
+            border-radius: 16px;
+            padding: 18px 20px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition:
+                transform 0.15s ease,
+                opacity 0.15s ease,
+                background 0.15s ease;
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .primary-button {
+            background: linear-gradient(135deg, #7c5cff, #b06cff);
+            color: #ffffff;
+        }
+
+        .secondary-button {
+            background: rgba(255, 255, 255, 0.12);
+            color: #ffffff;
+        }
+
+        .danger-button {
+            background: linear-gradient(135deg, #ff5c8a, #ff7b54);
+            color: #ffffff;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .screen {
+                padding: 32px 24px;
+            }
+
+            .title {
+                font-size: 34px;
+            }
+
+            .result-title {
+                font-size: 56px;
+            }
+
+            .question {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main class="app">
+        <!-- 首页 -->
+        <section
+            id="home-screen"
+            class="screen active"
+        >
+            <h1 class="title">绝对准确的人格测试</h1>
+
+            <p class="subtitle">
+                一测一个不吱声
+            </p>
+
+            <div class="button-group">
+                <button
+                    class="primary-button"
+                    id="start-button"
+                >
+                    开始测试
+                </button>
+            </div>
+        </section>
+
+        <!-- 试题 -->
+        <section
+            id="question-screen"
+            class="screen"
+        >
+            <h2 class="question">
+                你喜欢做测试吗？
+            </h2>
+
+            <div class="button-group">
+                <button
+                    class="primary-button"
+                    id="like-button"
+                >
+                    喜欢
+                </button>
+
+                <button
+                    class="danger-button"
+                    id="dislike-button"
+                >
+                    不喜欢
+                </button>
+            </div>
+        </section>
+
+        <!-- 结果 -->
+        <section
+            id="result-screen"
+            class="screen"
+        >
+            <p class="intro">
+                您的人格测试结果为
+            </p>
+
+            <h2 class="result-title">
+                TEST
+            </h2>
+
+            <p class="result-subtitle">
+                你是一个喜欢做测试的人
+            </p>
+
+            <div class="button-group">
+                <button
+                    class="primary-button"
+                    id="retry-button"
+                >
+                    再次测试
+                </button>
+
+                <button
+                    class="secondary-button"
+                    id="home-button"
+                >
+                    返回首页
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const screens = {
+            home: document.getElementById("home-screen"),
+            question: document.getElementById("question-screen"),
+            result: document.getElementById("result-screen")
+        };
+
+        const dislikeButton = document.getElementById("dislike-button");
+
+        function showScreen(screenName) {
+            Object.values(screens).forEach((screen) => {
+                screen.classList.remove("active");
+            });
+
+            screens[screenName].classList.add("active");
+        }
+
+        function resetQuestionState() {
+            dislikeButton.disabled = false;
+            dislikeButton.textContent = "不喜欢";
+        }
+
+        document
+            .getElementById("start-button")
+            .addEventListener("click", () => {
+                resetQuestionState();
+                showScreen("question");
+            });
+
+        document
+            .getElementById("like-button")
+            .addEventListener("click", () => {
+                showScreen("result");
+            });
+
+        dislikeButton.addEventListener("click", () => {
+            dislikeButton.textContent = "你骗人";
+            dislikeButton.disabled = true;
+        });
+
+        document
+            .getElementById("retry-button")
+            .addEventListener("click", () => {
+                resetQuestionState();
+                showScreen("question");
+            });
+
+        document
+            .getElementById("home-button")
+            .addEventListener("click", () => {
+                resetQuestionState();
+                showScreen("home");
+            });
+    </script>
+</body>
+</html>
